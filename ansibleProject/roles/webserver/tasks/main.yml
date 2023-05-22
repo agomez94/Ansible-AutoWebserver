@@ -1,0 +1,17 @@
+---
+# tasks file for roles/webserver
+- name: update APT package manger repositories
+  apt:
+    update_cache: yes
+
+- name: Install Apache
+  apt:
+    name: apache2
+    state: present
+    update_cache: yes
+
+- name: Configure index.html
+  template:
+    src: index.html
+    dest: /var/www/html/index.html
+

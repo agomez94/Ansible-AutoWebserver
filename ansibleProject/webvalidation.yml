@@ -1,0 +1,6 @@
+# setup webvalidation
+---
+  - hosts: webvalidation
+    become: true
+    roles:
+      - webvalidation

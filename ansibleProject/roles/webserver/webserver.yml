@@ -1,0 +1,6 @@
+# setup webserver
+---
+  - hosts: webserver
+    become: true
+    roles:
+      - webserver

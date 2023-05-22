@@ -1,0 +1,22 @@
+---
+# tasks file for roles/webvalidation
+- name: Test HTTP connection
+  uri:
+    url: "http://{{ ansible_default_ipv4.address }}/index.html"
+    return_content: yes
+  register: response
+
+- name: Check if host address is in the content
+  assert:
+    that: "'HOSTADDRESS is WORKING' in response.content"
+    success_msg: "Webserver on {{ inventory_hostname }} ({{ ansible_default_ipv4.address}}) is working correctly"
+    fail_msg: "Webserver on {{ inventory_hostname }} ({{ ansible_default_ipv4.address}}) is not working correctly"
+
+- name: Log the status
+  become: true
+  lineinfile:
+    create: yes
+    path: "/home/devops/ansible/ansibleproject/logfile.txt"
+    line: "{{ inventory_hostname }}: {{ansible_default_ipv4.address}} - {{ ansible_date_time.iso8601 }}"
+  delegate_to: localhost
+      
